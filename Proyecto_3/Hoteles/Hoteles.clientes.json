@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "654d8a6fa76a1d3f4467bfc0"
+  },
+  "ID_cliente": 1,
+  "direccion": "Obregon son",
+  "telefono": "6444126654",
+  "contraseña": "Alejandro1*",
+  "usuario": "AlejandroBel"
+},
+{
+  "_id": {
+    "$oid": "654d8a6fa76a1d3f4467bfc1"
+  },
+  "ID_cliente": 2,
+  "direccion": "Obregon son",
+  "telefono": "6444265788",
+  "contraseña": "Linda1*",
+  "usuario": "LindaMor"
+}]

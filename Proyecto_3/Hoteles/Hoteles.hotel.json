@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "654d897ba76a1d3f4467bfb2"
+  },
+  "ID_hotel": 1,
+  "nombre": "Hillton hills",
+  "direccion": "Miguel aleman #212 NTE",
+  "telefono": "6444172435",
+  "ano_construccion": 2015,
+  "ID_categoria": 2
+},
+{
+  "_id": {
+    "$oid": "654d897ba76a1d3f4467bfb3"
+  },
+  "ID_hotel": 2,
+  "nombre": "Hotelito local",
+  "direccion": "Morelos #2345",
+  "telefono": "6444123211",
+  "ano_construccion": 1995,
+  "ID_categoria": 1
+}]

@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "654d8b38a76a1d3f4467bfcc"
+  },
+  "ID_agencia": 1,
+  "nombre": "Tu viajecito perron",
+  "direccion": "Sonora #323 NTE",
+  "telefono": "6444346678"
+},
+{
+  "_id": {
+    "$oid": "654d8b38a76a1d3f4467bfcd"
+  },
+  "ID_agencia": 2,
+  "nombre": "Vamonos de trip",
+  "direccion": "San antonio #1122",
+  "telefono": "6444980977"
+}]

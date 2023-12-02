@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "654d89e6a76a1d3f4467bfb6"
+  },
+  "ID_habitacion": 1,
+  "numero": 305,
+  "tipo": "Suite",
+  "planta": 3,
+  "ID_hotel": 2
+},
+{
+  "_id": {
+    "$oid": "654d89e6a76a1d3f4467bfb7"
+  },
+  "ID_habitacion": 2,
+  "numero": 154,
+  "tipo": "Individual",
+  "planta": 1,
+  "ID_hotel": 1
+}]

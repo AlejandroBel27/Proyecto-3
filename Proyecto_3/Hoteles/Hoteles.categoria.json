@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "654d88e0a76a1d3f4467bfae"
+  },
+  "ID_categoria": 1,
+  "nombre": "Categoria 1",
+  "tipo_IVA": "Tipo IVA 1",
+  "estrellas": [
+    "1 Estrella",
+    "2 Estrellas",
+    "3 Estrellas",
+    "4 Estrellas",
+    "5 Estrellas"
+  ]
+},
+{
+  "_id": {
+    "$oid": "654d88e0a76a1d3f4467bfaf"
+  },
+  "ID_categoria": 2,
+  "nombre": "Categoria 2",
+  "tipo_IVA": "Tipo IVA 2",
+  "estrellas": [
+    "1 Estrella",
+    "2 Estrellas",
+    "3 Estrellas",
+    "4 Estrellas",
+    "5 Estrellas"
+  ]
+}]
