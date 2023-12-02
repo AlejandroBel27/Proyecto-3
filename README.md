@@ -1,5 +1,5 @@
 # Proyecto 3
-Base de datos avanzadas Proyecto final 
+[Base de datos avanzadas Proyecto final](Proyecto_3/docs/definicion_proyecto3.pdf) 
 
 ## Descripcion
 este repositorio de github contiene el proyecto final para la materia de bases de datos avanzadas 2023.
@@ -8,14 +8,14 @@ este proyecto es una aplicacion sencilla escrita en Java SE, utiliza Maven como 
 
 para la seleccion de fechas utilizamos "por definir".
 
-para este proyecto se utilizo de base el caso practico de hoteles, que se puede encontrar en este [enlace](https://ivirtual.itson.edu.mx/pluginfile.php/865147/mod_resource/content/1/Asignacion1.pdf).
+para este proyecto se utilizo de base el caso practico de hoteles, que se puede encontrar en este [enlace](/Proyecto_3/docs/caso_Hoteles.pdf).
 
-## requisitos del proyecto
-[JSON con los datos necesarios para el funcionamiento del programa](/Proyecto_3/Hoteles).
+## requisitos del proyecto:
+[JSON con los datos necesarios para el funcionamiento del programa](Proyecto_3/Hoteles).
 
-## Entregables del proyecto
-1. [diagrama de clases de dominio](/Proyecto_3).*por definir
-2. [Modelo entidad relación](/Proyecto_3).*por definir
-3. [mapeo de prototipos de interfaz grafica con clases de dominio](/Proyecto_3).*por definir
-4. [Proyecto Java SE con maven](Proyecto_3/src).*por definir
+## Entregables del proyecto:
+1. [diagrama de clases de dominio](Proyecto_3/docs).*por definir
+2. [Modelo entidad relación](Proyecto_3/docs).*por definir
+3. [mapeo de prototipos de interfaz grafica con clases de dominio](Proyecto_3/docs/Prototipos_GUI).*por definir
+4. [Proyecto Java SE con maven](Proyecto_3).*por definir
 5. [Documento JavaDoc](/Proyecto_3).*por definir
