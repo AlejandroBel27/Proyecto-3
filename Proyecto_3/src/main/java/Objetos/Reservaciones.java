@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 
 /**
  *
- * @author alejandrobel
+ * @author Proyecto_3
  */
 public class Reservaciones {
     ObjectId _id;

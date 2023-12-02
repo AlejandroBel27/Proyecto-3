@@ -5,23 +5,25 @@ import org.bson.types.ObjectId;
 
 /**
  *
- * @author alejandrobel
+ * @author Proyecto_3
  */
 public class Clientes {
     ObjectId _id;
     int ID_cliente;
-    String nombre;
+    String usuario;
     String direccion;
     String telefono;
+    String  contraseña;
 
     public Clientes() {
     }
 
-    public Clientes(int ID_cliente, String nombre, String direccion, String telefono) {
+    public Clientes(int ID_cliente, String usuario, String direccion, String telefono,String contraseña) {
         this.ID_cliente = ID_cliente;
-        this.nombre = nombre;
+        this.usuario = usuario;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.contraseña = contraseña;
     }
 
     public ObjectId getId() {
@@ -40,13 +42,15 @@ public class Clientes {
         this.ID_cliente = ID_cliente;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
+
+   
 
     public String getDireccion() {
         return direccion;
@@ -63,6 +67,16 @@ public class Clientes {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+    
+    
     
     /**
      * Eficiencia para almacenamiento de datos.
@@ -92,7 +106,7 @@ public class Clientes {
             return false;
         }
         final Clientes other = (Clientes) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
+        if (!Objects.equals(this.usuario, other.usuario)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {
@@ -103,7 +117,9 @@ public class Clientes {
 
     @Override
     public String toString() {
-        return "Clientes{" + "_id=" + _id + ", ID_cliente=" + ID_cliente + ", nombre=" + nombre + ", direccion=" + direccion + ", telefono=" + telefono + '}';
+        return "Clientes{" + "_id=" + _id + ", ID_cliente=" + ID_cliente + ", usuario=" + usuario + ", direccion=" + direccion + ", telefono=" + telefono + ", contrase\u00f1a=" + contraseña + '}';
     }
+
+   
     
 }

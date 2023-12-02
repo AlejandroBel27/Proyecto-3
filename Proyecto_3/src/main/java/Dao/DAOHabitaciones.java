@@ -14,7 +14,7 @@ import org.bson.types.ObjectId;
 
 /**
  *
- * @author alejandrobel
+ * @author Proyecto_3
  */
 public class DAOHabitaciones extends BaseDao<Habitaciones> {
 

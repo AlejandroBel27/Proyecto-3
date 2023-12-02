@@ -15,7 +15,7 @@ import org.bson.types.ObjectId;
 
 /**
  *
- * @author alejandrobel
+ * @author Proyecto_3 
  * @param <T>
  */
 public abstract class BaseDao<T> {

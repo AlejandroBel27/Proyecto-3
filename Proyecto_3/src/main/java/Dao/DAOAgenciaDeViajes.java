@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author alejandrobel
+ * @author Proyecto_3
  */
 public class DAOAgenciaDeViajes extends BaseDao<AgenciaDeViajes> {
 

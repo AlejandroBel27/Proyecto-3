@@ -1,5 +1,8 @@
 package Exceptions;
-
+/**
+ * 
+ * @author Proyecto_3
+ */
 public class DAOException extends Exception {
 
     public DAOException() {

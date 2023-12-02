@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 import java.util.List;
 /**
  *
- * @author alejandrobel
+ * @author Proyecto_3
  */
 public class Categoria {
     ObjectId _id;

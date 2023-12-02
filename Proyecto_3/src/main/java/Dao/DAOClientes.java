@@ -14,7 +14,7 @@ import org.bson.types.ObjectId;
 
 /**
  *
- * @author alejandrobel
+ * @author Proyecto_3
  */
 public class DAOClientes extends BaseDao<Clientes> {
 
@@ -36,9 +36,10 @@ public class DAOClientes extends BaseDao<Clientes> {
         collection.updateOne(Filters.eq("_id", entidad.getId()),
                 new Document("$set", new Document()
                         .append("ID_cliente", entidad.getID_cliente())
-                        .append("nombre", entidad.getNombre())
+                        .append("usuario", entidad.getUsuario())
                         .append("direccion", entidad.getDireccion())
                         .append("telefono", entidad.getTelefono())
+                        .append("contraseña", entidad.getContraseña())
                 )
         );
     }
