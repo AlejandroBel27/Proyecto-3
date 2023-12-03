@@ -14,8 +14,8 @@ para este proyecto se utilizo de base el caso practico de hoteles, que se puede 
 [JSON con los datos necesarios para el funcionamiento del programa](Proyecto_3/Hoteles).
 
 ## Entregables del proyecto:
-1. [diagrama de clases de dominio](Proyecto_3/docs).*por definir
-2. [Modelo entidad relación](Proyecto_3/docs).*por definir
-3. [mapeo de prototipos de interfaz grafica con clases de dominio](Proyecto_3/docs/Prototipos_GUI).*por definir
+1. [diagrama de clases de dominio](Proyecto_3/docs/Dominio_Hoteles.png).
+2. [Modelo entidad relación](Proyecto_3/docs/ModeloER.pdf).
+3. [mapeo de prototipos de interfaz grafica con clases de dominio](Proyecto_3/docs/Prototipos_GUI).
 4. [Proyecto Java SE con maven](Proyecto_3).*por definir
 5. [Documento JavaDoc](/Proyecto_3).*por definir
