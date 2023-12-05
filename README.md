@@ -17,5 +17,5 @@ para este proyecto se utilizo de base el caso practico de hoteles, que se puede 
 1. [diagrama de clases de dominio](Proyecto_3/docs/Dominio_Hoteles.png).
 2. [Modelo entidad relación](Proyecto_3/docs/ModeloER.pdf).
 3. [mapeo de prototipos de interfaz grafica con clases de dominio](Proyecto_3/docs/Prototipos_GUI).
-4. [Proyecto Java SE con maven](Proyecto_3/src).*por definir
-5. [Documento JavaDoc](Proyecto_3/target).*por definir
+4. [Proyecto Java SE con maven](Proyecto_3/src).
+5. [Documento JavaDoc](Proyecto_3/target).
