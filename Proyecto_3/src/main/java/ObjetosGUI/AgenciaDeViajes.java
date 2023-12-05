@@ -4,25 +4,35 @@ import java.util.Objects;
 import org.bson.types.ObjectId;
 
 /**
+ * Clase que representa la entidad AgenciaDeViajes en el sistema. Contiene
+ * atributos que describen una agencia de viajes y métodos para acceder y
+ * modificar estos atributos. Además, implementa hashCode, equals y toString
+ * para proporcionar funcionalidad adicional.
  *
  * @author Proyecto_3
  */
 public class AgenciaDeViajes {
+    // Identificador único de la agencia de viajes en la base de datos MongoDB
+
     ObjectId _id;
+    // Atributos que describen una agencia de viajes
+
     int ID_agencia;
     String usuario;
     String direccion;
     String telefono;
     String contraseña;
+    // Constructores
+
     public AgenciaDeViajes() {
     }
 
-    public AgenciaDeViajes(int ID_agencia, String usuario, String direccion, String telefono,String contraseña) {
+    public AgenciaDeViajes(int ID_agencia, String usuario, String direccion, String telefono, String contraseña) {
         this.ID_agencia = ID_agencia;
         this.usuario = usuario;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.contraseña= contraseña;
+        this.contraseña = contraseña;
     }
 
     public ObjectId getId() {
@@ -72,22 +82,27 @@ public class AgenciaDeViajes {
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
-    
+
     /**
-     * Eficiencia para almacenamiento de datos.
-     * @return retorna el hash.
+     * Genera un código hash único basado en el identificador de la agencia de
+     * viajes.
+     *
+     * @return Código hash de la instancia.
      */
     @Override
     public int hashCode() {
-    int hash = 3;
+        int hash = 3;
         hash = 17 * hash + Objects.hashCode(this._id);
         return hash;
     }
 
     /**
-     * Sirve para comprobar que no existan dos registros iguales.
-     * @param obj
-     * @return Retorna true si ambios atrubutos son iguales de lo contrario retorna false.
+     * Compara dos instancias de AgenciaDeViajes para verificar su igualdad. Dos
+     * instancias son iguales si tienen el mismo identificador (_id) o el mismo
+     * usuario.
+     *
+     * @param obj Objeto a comparar con la instancia actual.
+     * @return true si las instancias son iguales, false en caso contrario.
      */
     @Override
     public boolean equals(Object obj) {
@@ -110,11 +125,14 @@ public class AgenciaDeViajes {
         return true;
     }
 
+    /**
+     * Genera una representación en cadena de la instancia AgenciaDeViajes.
+     *
+     * @return Cadena que representa la instancia.
+     */
     @Override
     public String toString() {
         return "AgenciaDeViajes{" + "_id=" + _id + ", ID_agencia=" + ID_agencia + ", usuario=" + usuario + ", direccion=" + direccion + ", telefono=" + telefono + ", contrase\u00f1a=" + contraseña + '}';
     }
-
-    
 
 }

@@ -4,21 +4,26 @@ import java.util.Objects;
 import org.bson.types.ObjectId;
 
 /**
+ * Clase que representa la entidad Clientes en el sistema. Contiene atributos
+ * que describen un cliente y métodos para acceder y modificar estos atributos.
+ * Además, implementa hashCode, equals y toString para proporcionar
+ * funcionalidad adicional.
  *
  * @author Proyecto_3
  */
 public class Clientes {
+
     ObjectId _id;
     int ID_cliente;
     String usuario;
     String direccion;
     String telefono;
-    String  contraseña;
+    String contraseña;
 
     public Clientes() {
     }
 
-    public Clientes(int ID_cliente, String usuario, String direccion, String telefono,String contraseña) {
+    public Clientes(int ID_cliente, String usuario, String direccion, String telefono, String contraseña) {
         this.ID_cliente = ID_cliente;
         this.usuario = usuario;
         this.direccion = direccion;
@@ -50,8 +55,6 @@ public class Clientes {
         this.usuario = usuario;
     }
 
-   
-
     public String getDireccion() {
         return direccion;
     }
@@ -75,24 +78,25 @@ public class Clientes {
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
-    
-    
-    
+
     /**
      * Eficiencia para almacenamiento de datos.
+     *
      * @return retorna el hash.
      */
     @Override
     public int hashCode() {
-    int hash = 3;
+        int hash = 3;
         hash = 17 * hash + Objects.hashCode(this._id);
         return hash;
     }
-    
+
     /**
      * Sirve para comprobar que no existan dos registros iguales.
+     *
      * @param obj
-     * @return Retorna true si ambios atrubutos son iguales de lo contrario retorna false.
+     * @return Retorna true si ambios atrubutos son iguales de lo contrario
+     * retorna false.
      */
     @Override
     public boolean equals(Object obj) {
@@ -115,11 +119,14 @@ public class Clientes {
         return true;
     }
 
+    /**
+     * Genera una representación en cadena de la instancia Clientes.
+     *
+     * @return Cadena que representa la instancia.
+     */
     @Override
     public String toString() {
         return "Clientes{" + "_id=" + _id + ", ID_cliente=" + ID_cliente + ", usuario=" + usuario + ", direccion=" + direccion + ", telefono=" + telefono + ", contrase\u00f1a=" + contraseña + '}';
     }
 
-   
-    
 }

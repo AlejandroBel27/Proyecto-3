@@ -4,10 +4,15 @@ import java.util.Objects;
 import org.bson.types.ObjectId;
 
 /**
+ * Clase que representa la entidad Habitaciones en el sistema. Contiene
+ * atributos que describen una habitación y métodos para acceder y modificar
+ * estos atributos. Además, implementa hashCode, equals y toString para
+ * proporcionar funcionalidad adicional.
  *
  * @author Proyecto_3
  */
 public class Habitaciones {
+
     ObjectId _id;
     int ID_habitacion;
     int numero;
@@ -73,22 +78,25 @@ public class Habitaciones {
     public void setID_hotel(int ID_hotel) {
         this.ID_hotel = ID_hotel;
     }
-    
+
     /**
      * Eficiencia para almacenamiento de datos.
+     *
      * @return retorna el hash.
      */
     @Override
     public int hashCode() {
-    int hash = 3;
+        int hash = 3;
         hash = 17 * hash + Objects.hashCode(this._id);
         return hash;
     }
-    
+
     /**
      * Sirve para comprobar que no existan dos registros iguales.
+     *
      * @param obj
-     * @return Retorna true si ambios atrubutos son iguales de lo contrario retorna false.
+     * @return Retorna true si ambios atrubutos son iguales de lo contrario
+     * retorna false.
      */
     @Override
     public boolean equals(Object obj) {
@@ -111,12 +119,14 @@ public class Habitaciones {
         return true;
     }
 
+    /**
+     * Genera una representación en cadena de la instancia Habitaciones.
+     *
+     * @return Cadena que representa la instancia.
+     */
     @Override
     public String toString() {
         return "Habitaciones{" + "_id=" + _id + ", ID_habitacion=" + ID_habitacion + ", numero=" + numero + ", tipo=" + tipo + ", planta=" + planta + ", ID_hotel=" + ID_hotel + '}';
     }
-    
-    
-    
-    
+
 }

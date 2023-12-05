@@ -4,21 +4,27 @@ import java.util.ArrayList;
 import java.util.Objects;
 import org.bson.types.ObjectId;
 import java.util.List;
+
 /**
+ * Clase que representa la entidad Categoria en el sistema. Contiene atributos
+ * que describen una categoría y métodos para acceder y modificar estos
+ * atributos. Además, implementa hashCode, equals y toString para proporcionar
+ * funcionalidad adicional.
  *
  * @author Proyecto_3
  */
 public class Categoria {
+
     ObjectId _id;
     int ID_categoria;
     String nombre;
     String tipo_IVA;
-    ArrayList <String> estrellas = new ArrayList();
+    ArrayList<String> estrellas = new ArrayList();
 
     public Categoria() {
     }
 
-    public Categoria(int ID_categoria, String nombre, String tipo_IVA,String estrellas) {
+    public Categoria(int ID_categoria, String nombre, String tipo_IVA, String estrellas) {
         this.ID_categoria = ID_categoria;
         this.nombre = nombre;
         this.tipo_IVA = tipo_IVA;
@@ -66,22 +72,25 @@ public class Categoria {
         this.estrellas = estrellas;
     }
 
-
     /**
-     * Eficiencia para almacenamiento de datos.
-     * @return retorna el hash.
+     * Genera un código hash único basado en el identificador de la categoría.
+     *
+     * @return Código hash de la instancia.
      */
     @Override
     public int hashCode() {
-    int hash = 3;
+        int hash = 3;
         hash = 17 * hash + Objects.hashCode(this._id);
         return hash;
     }
-    
-     /**
-     * Sirve para comprobar que no existan dos registros iguales.
-     * @param obj
-     * @return Retorna true si ambios atrubutos son iguales de lo contrario retorna false.
+
+    /**
+     * Compara dos instancias de Categoria para verificar su igualdad. Dos
+     * instancias son iguales si tienen el mismo identificador (_id) o el mismo
+     * nombre.
+     *
+     * @param obj Objeto a comparar con la instancia actual.
+     * @return true si las instancias son iguales, false en caso contrario.
      */
     @Override
     public boolean equals(Object obj) {
@@ -103,12 +112,15 @@ public class Categoria {
         }
         return true;
     }
-    
+
+    /**
+     * Genera una representación en cadena de la instancia Categoria.
+     *
+     * @return Cadena que representa la instancia.
+     */
     @Override
     public String toString() {
         return "Categoria{" + "_id=" + _id + ", ID_categoria=" + ID_categoria + ", nombre=" + nombre + ", tipo_IVA=" + tipo_IVA + ", estrellas=" + estrellas + '}';
     }
 
-    
-    
 }
