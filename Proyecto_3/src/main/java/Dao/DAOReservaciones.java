@@ -35,14 +35,11 @@ public class DAOReservaciones extends BaseDao<Reservaciones> {
         MongoCollection<Reservaciones> collection = getColeccion();
         collection.updateOne(Filters.eq("_id", entidad.getId()),
                 new Document("$set", new Document()
-                        .append("ID_reserva", entidad.getID_reserva())
+                        .append("nombreHotel", entidad.getNombreHotel())
                         .append("fecha_inicio", entidad.getFecha_inicio())
                         .append("fecha_final", entidad.getFecha_fin())
-                        .append("ID_cliente", entidad.getID_cliente())
-                        .append("ID_agencia", entidad.getID_agencia())
-                        .append("ID_hotel", entidad.getID_hotel())
-                        .append("ID_categoria", entidad.getID_categoria())
-                        .append("ID_habitacion", entidad.getID_habitacion())
+                        .append("tipoHabitacion", entidad.getTipoHabitacion())
+               
                 )
         );
 

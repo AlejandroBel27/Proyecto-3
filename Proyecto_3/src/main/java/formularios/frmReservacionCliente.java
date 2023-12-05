@@ -6,19 +6,27 @@ package formularios;
 
 import Dao.DAOHabitaciones;
 import Dao.DAOHoteles;
+import Dao.DAOReservaciones;
 import Exceptions.DAOException;
 import ObjetosGUI.Habitaciones;
 import ObjetosGUI.Hotel;
+import ObjetosGUI.Reservaciones;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Proyecto_3
  */
 public class frmReservacionCliente extends javax.swing.JFrame {
+
+    private DAOReservaciones dao = new DAOReservaciones();
+    private ArrayList<String> hotel = new ArrayList<>();
+    private ArrayList<String> tipo = new ArrayList<>();
 
     /**
      * Creates new form frmReservacionCliente
@@ -27,6 +35,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
         initComponents();
         cargarComboBoxHabitacion();
         cargarComboBoxHotel();
+        imprimirTablaCliente();
     }
 
     /**
@@ -50,7 +59,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         comboBoxTipoHabitacion = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableCliente = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
         btnReservar = new javax.swing.JButton();
@@ -100,7 +109,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
 
         comboBoxTipoHabitacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -111,7 +120,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableCliente);
 
         btnBuscar.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         btnBuscar.setIcon(new javax.swing.ImageIcon("/Users/alejandrobel/Desktop/ISW/BDA_avanzada/Proyecto-3/Proyecto_3/src/main/resources/Iconos/icons8-consultar-el-manual-30.png")); // NOI18N
@@ -203,13 +212,33 @@ public class frmReservacionCliente extends javax.swing.JFrame {
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         InicioSesion f = new InicioSesion();
         f.setVisible(true);
-        
+
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
-        // TODO add your handling code here:
+        if(txtHoraEntrada.getText().equals(" ")||txtHoraSalida.getText().equals(" ")){
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos.");
+            return;
+        }
+        
+        Reservaciones r= new Reservaciones();
+        
+        r.setNombreHotel(hotel);
+        r.setFecha_inicio(txtHoraEntrada.getText());
+        r.setFecha_fin(txtHoraSalida.getText());
+        r.setTipoHabitacion(tipo);
+       
+    try{
+        dao.insertar(r);
+        JOptionPane.showMessageDialog(null, "Reservación realizada correctamente.");
+        imprimirTablaCliente();
+    }catch (DAOException e) {
+            Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+
     }//GEN-LAST:event_btnReservarActionPerformed
 
     /**
@@ -246,7 +275,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void cargarComboBoxHotel() {
         DAOHoteles daoHotel = new DAOHoteles();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
@@ -254,13 +283,12 @@ public class frmReservacionCliente extends javax.swing.JFrame {
 
         try {
             hotel = daoHotel.consultar();
-            
-            
-            for(Hotel hoteles : hotel){
+
+            for (Hotel hoteles : hotel) {
                 String hot = hoteles.getNombre();
                 modelo.addElement(hot);
             }
-            
+
         } catch (DAOException e) {
             Logger.getLogger(frmReservacionCliente.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -275,17 +303,67 @@ public class frmReservacionCliente extends javax.swing.JFrame {
 
         try {
             habitacion = daoHabitacion.consultar();
-            
-            
-            for(Habitaciones hab : habitacion){
+
+            for (Habitaciones hab : habitacion) {
                 String tipo = hab.getTipo();
                 modelo.addElement(tipo);
             }
         } catch (DAOException e) {
             Logger.getLogger(frmReservacionCliente.class.getName()).log(Level.SEVERE, null, e);
         }
-        
+
         comboBoxTipoHabitacion.setModel(modelo);
+    }
+
+    private void imprimirTablaCliente() {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        tableCliente.setModel(modelo);
+
+        modelo.addColumn("ID");
+        modelo.addColumn("Hotel");
+        modelo.addColumn("Tipo Habitacion");
+        modelo.addColumn("Ingreso");
+        modelo.addColumn("Salida");
+
+        ArrayList<Reservaciones> res = null;
+
+        try {
+            res = dao.consultar();
+        } catch (DAOException e) {
+            Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        StringBuffer sb = new StringBuffer();
+
+        Object o[] = null;
+
+        Reservaciones[] rArray = new Reservaciones[res.size()];
+        rArray = res.toArray(rArray);
+
+        for (int i = 0; i < rArray.length; i++) {
+
+            if (txtBuscar.getText().equals(rArray[i].getNombreHotel())) {
+                Object info[] = new Object[5];
+                info[0] = rArray[i].getId();
+                info[1] = rArray[i].getNombreHotel();
+                info[2] = rArray[i].getTipoHabitacion();
+                info[3] = rArray[i].getFecha_inicio();
+                info[4] = rArray[i].getFecha_fin();
+
+                modelo.addRow(info);
+
+                Reservaciones agen = rArray[i];
+
+                modelo.setValueAt(agen.getId().toString(), i, 0);
+                modelo.setValueAt(agen.getNombreHotel().toString(), i, 1);
+                modelo.setValueAt(agen.getTipoHabitacion().toString(), i, 2);
+                modelo.setValueAt(agen.getFecha_inicio().toString(), i, 3);
+                modelo.setValueAt(agen.getFecha_fin().toString(), i, 4);
+                tableCliente.repaint();
+            }
+
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -301,7 +379,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableCliente;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtHoraEntrada;
     private javax.swing.JTextField txtHoraSalida;

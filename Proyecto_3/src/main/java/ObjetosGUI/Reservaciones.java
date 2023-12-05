@@ -1,6 +1,7 @@
 
 package ObjetosGUI;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import org.bson.types.ObjectId;
 
@@ -10,28 +11,23 @@ import org.bson.types.ObjectId;
  */
 public class Reservaciones {
     ObjectId _id;
-    int ID_reserva;
+    ArrayList<String> nombreHotel=new ArrayList();
     String fecha_inicio;
     String fecha_fin;
-    int ID_cliente;
-    int ID_agencia;
-    int ID_hotel;
-    int ID_categoria;
-    int ID_habitacion;
-
+    ArrayList<String>tipoHabitacion = new ArrayList();
+    
     public Reservaciones() {
     }
 
-    public Reservaciones(int ID_reserva, String fecha_inicio, String fecha_fin, int ID_cliente, int ID_agencia, int ID_hotel, int ID_categoria, int ID_habitacion) {
-        this.ID_reserva = ID_reserva;
+    public Reservaciones(ObjectId _id, String nombreHotel, String fecha_inicio, String fecha_fin,String tipoHabitacion) {
+        this._id = _id;
+        this.nombreHotel.add(nombreHotel);
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
-        this.ID_cliente = ID_cliente;
-        this.ID_agencia = ID_agencia;
-        this.ID_hotel = ID_hotel;
-        this.ID_categoria = ID_categoria;
-        this.ID_habitacion = ID_habitacion;
+        this.tipoHabitacion.add(tipoHabitacion);
     }
+
+    
 
     public ObjectId getId() {
         return _id;
@@ -41,13 +37,25 @@ public class Reservaciones {
         this._id = _id;
     }
 
-    public int getID_reserva() {
-        return ID_reserva;
+    public ArrayList<String> getNombreHotel() {
+        return nombreHotel;
     }
 
-    public void setID_reserva(int ID_reserva) {
-        this.ID_reserva = ID_reserva;
+    public void setNombreHotel(ArrayList<String> nombreHotel) {
+        this.nombreHotel = nombreHotel;
     }
+
+    
+
+    public ArrayList<String> getTipoHabitacion() {
+        return tipoHabitacion;
+    }
+
+    public void setTipoHabitacion(ArrayList<String> tipoHabitacion) {
+        this.tipoHabitacion = tipoHabitacion;
+    }
+
+    
 
     public String getFecha_inicio() {
         return fecha_inicio;
@@ -65,45 +73,7 @@ public class Reservaciones {
         this.fecha_fin = fecha_fin;
     }
 
-    public int getID_cliente() {
-        return ID_cliente;
-    }
-
-    public void setID_cliente(int ID_cliente) {
-        this.ID_cliente = ID_cliente;
-    }
-
-    public int getID_agencia() {
-        return ID_agencia;
-    }
-
-    public void setID_agencia(int ID_agencia) {
-        this.ID_agencia = ID_agencia;
-    }
-
-    public int getID_hotel() {
-        return ID_hotel;
-    }
-
-    public void setID_hotel(int ID_hotel) {
-        this.ID_hotel = ID_hotel;
-    }
-
-    public int getID_categoria() {
-        return ID_categoria;
-    }
-
-    public void setID_categoria(int ID_categoria) {
-        this.ID_categoria = ID_categoria;
-    }
-
-    public int getID_habitacion() {
-        return ID_habitacion;
-    }
-
-    public void setID_habitacion(int ID_habitacion) {
-        this.ID_habitacion = ID_habitacion;
-    }
+   
     
     /**
      * Eficiencia para almacenamiento de datos.
@@ -133,7 +103,7 @@ public class Reservaciones {
             return false;
         }
         final Reservaciones other = (Reservaciones) obj;
-        if (!Objects.equals(this.ID_reserva, other.ID_reserva)) {
+        if (!Objects.equals(this.nombreHotel, other.nombreHotel)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {
@@ -144,8 +114,10 @@ public class Reservaciones {
 
     @Override
     public String toString() {
-        return "Reservaciones{" + "_id=" + _id + ", ID_reserva=" + ID_reserva + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + ", ID_cliente=" + ID_cliente + ", ID_agencia=" + ID_agencia + ", ID_hotel=" + ID_hotel + ", ID_categoria=" + ID_categoria + ", ID_habitacion=" + ID_habitacion + '}';
+        return "Reservaciones{" + "_id=" + _id + ", nombreHotel=" + nombreHotel + ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + ", tipoHabitacion=" + tipoHabitacion + '}';
     }
+
+    
     
     
 }

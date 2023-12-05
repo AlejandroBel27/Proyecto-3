@@ -7,15 +7,18 @@ package formularios;
 import Dao.DAOAgenciaDeViajes;
 import Dao.DAOHabitaciones;
 import Dao.DAOHoteles;
+import Dao.DAOReservaciones;
 import Exceptions.DAOException;
 import ObjetosGUI.AgenciaDeViajes;
 import ObjetosGUI.Habitaciones;
 import ObjetosGUI.Hotel;
+import ObjetosGUI.Reservaciones;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,7 +27,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmReservacionAgencia extends javax.swing.JFrame {
 
-    private DAOHoteles dao = new DAOHoteles();
+    private DAOReservaciones dao = new DAOReservaciones();
+    private ArrayList<String> hotel = new ArrayList<>();
+    private ArrayList<String>tipo= new ArrayList<>();
+   
 
     /**
      * Creates new form frmReservacionAgencia
@@ -141,34 +147,29 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel3)
-                                        .addComponent(comboBoxHotel, 0, 190, Short.MAX_VALUE)
-                                        .addComponent(txtHoraSalida)
-                                        .addComponent(comboBoxTipoHabitacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(btnSalir)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(btnReservar)))
-                        .addGap(0, 3, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 23, Short.MAX_VALUE)
-                        .addComponent(txtHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3)
+                                .addComponent(comboBoxHotel, 0, 190, Short.MAX_VALUE)
+                                .addComponent(txtHoraSalida)
+                                .addComponent(comboBoxTipoHabitacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnSalir)
+                            .addComponent(txtHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(btnReservar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,8 +222,27 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
         // TODO add your handling code here:
         
+        if(txtHoraEntrada.getText().equals(" ")||txtHoraSalida.getText().equals(" ")){
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos.");
+            return;
+        }
         
+        Reservaciones r= new Reservaciones();
         
+        r.setNombreHotel(hotel);
+        r.setFecha_inicio(txtHoraEntrada.getText());
+        r.setFecha_fin(txtHoraSalida.getText());
+        r.setTipoHabitacion(tipo);
+       
+    try{
+        dao.insertar(r);
+        JOptionPane.showMessageDialog(null, "Reservación realizada correctamente.");
+        imprimirTablaAgencia();
+    }catch (DAOException e) {
+            Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+
     }//GEN-LAST:event_btnReservarActionPerformed
 
     /**
@@ -267,14 +287,14 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
 
         modelo.addColumn("ID");
         modelo.addColumn("Hotel");
-        modelo.addColumn("Direccion");
+        modelo.addColumn("Tipo Habitacion");
         modelo.addColumn("Ingreso");
         modelo.addColumn("Salida");
 
-        ArrayList<Hotel> ADV = null;
+        ArrayList<Reservaciones> res = null;
 
         try {
-            ADV = dao.consultar();
+            res = dao.consultar();
         } catch (DAOException e) {
             Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -283,28 +303,28 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
 
         Object o[] = null;
 
-        Hotel[] AgeArray = new Hotel[ADV.size()];
-        AgeArray = ADV.toArray(AgeArray);
+        Reservaciones[] rArray = new Reservaciones[res.size()];
+        rArray = res.toArray(rArray);
 
-        for (int i = 0; i < AgeArray.length; i++) {
+        for (int i = 0; i < rArray.length; i++) {
 
-            if (txtBuscar.getText().equals(AgeArray[i].getNombre())) {
-                Object info[] = new Object[4];
-                info[0] = AgeArray[i].getId();
-                info[1]=AgeArray[i].getNombre();
-                info[2] = AgeArray[i].getDireccion();
-                info[3] = AgeArray[i].getTelefono();
-                
+            if (txtBuscar.getText().equals(rArray[i].getNombreHotel())) {
+                Object info[] = new Object[5];
+                info[0] = rArray[i].getId();
+                info[1] = rArray[i].getNombreHotel();
+                info[2] = rArray[i].getTipoHabitacion();
+                info[3] = rArray[i].getFecha_inicio();
+                info[4] = rArray[i].getFecha_fin();
 
                 modelo.addRow(info);
 
-                Hotel agen = AgeArray[i];
+                Reservaciones agen = rArray[i];
 
                 modelo.setValueAt(agen.getId().toString(), i, 0);
-                modelo.setValueAt(agen.getDireccion().toString(), i, 1);
-                modelo.setValueAt(agen.getTelefono().toString(), i, 2);
-                modelo.setValueAt(agen.getNombre().toString(), i, 3);
-
+                modelo.setValueAt(agen.getNombreHotel().toString(), i, 1);
+                modelo.setValueAt(agen.getTipoHabitacion().toString(), i, 2);
+                modelo.setValueAt(agen.getFecha_inicio().toString(), i, 3);
+                modelo.setValueAt(agen.getFecha_fin().toString(), i, 4);
                 tableAgencia.repaint();
             }
 
@@ -318,13 +338,12 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
 
         try {
             hotel = daoHotel.consultar();
-            
-            
-            for(Hotel hoteles : hotel){
+
+            for (Hotel hoteles : hotel) {
                 String hot = hoteles.getNombre();
                 modelo.addElement(hot);
             }
-            
+
         } catch (DAOException e) {
             Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -339,16 +358,15 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
 
         try {
             habitacion = daoHabitacion.consultar();
-            
-            
-            for(Habitaciones hab : habitacion){
+
+            for (Habitaciones hab : habitacion) {
                 String tipo = hab.getTipo();
                 modelo.addElement(tipo);
             }
         } catch (DAOException e) {
             Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
         }
-        
+
         comboBoxTipoHabitacion.setModel(modelo);
     }
 
