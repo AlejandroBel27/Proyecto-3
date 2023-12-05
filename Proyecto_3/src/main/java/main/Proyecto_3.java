@@ -1,8 +1,10 @@
-
 package main;
 
 import formularios.InicioSesion;
+
 /**
+ *Clase principal que inicia la aplicación. Crea una instancia de la clase
+ * InicioSesion y la hace visible.
  *
  * @author Proyecto_3
  */
