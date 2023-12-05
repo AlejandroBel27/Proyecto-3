@@ -4,9 +4,19 @@
  */
 package formularios;
 
+import Dao.DAOHabitaciones;
+import Dao.DAOHoteles;
+import Exceptions.DAOException;
+import ObjetosGUI.Habitaciones;
+import ObjetosGUI.Hotel;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
- * @author cocob
+ * @author Proyecto_3
  */
 public class frmReservacionCliente extends javax.swing.JFrame {
 
@@ -15,6 +25,8 @@ public class frmReservacionCliente extends javax.swing.JFrame {
      */
     public frmReservacionCliente() {
         initComponents();
+        cargarComboBoxHabitacion();
+        cargarComboBoxHotel();
     }
 
     /**
@@ -28,17 +40,15 @@ public class frmReservacionCliente extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnMenu = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        txtNombreCliente = new javax.swing.JTextField();
+        btnSalir = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboBoxHotel = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtHoraEntrada = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtHoraSalida = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboBoxTipoHabitacion = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
@@ -69,26 +79,18 @@ public class frmReservacionCliente extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnMenu.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        btnMenu.setIcon(new javax.swing.ImageIcon("/Users/alejandrobel/Desktop/ISW/BDA_avanzada/Proyecto-3/Proyecto_3/src/main/resources/Iconos/logout-icon.png")); // NOI18N
-        btnMenu.setText("Menú");
-        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon("/Users/alejandrobel/Desktop/ISW/BDA_avanzada/Proyecto-3/Proyecto_3/src/main/resources/Iconos/logout-icon.png")); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Cliente:");
-
-        txtNombreCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreClienteActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Nombre Hotel:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxHotel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel4.setText("Hora entrada:");
 
@@ -96,7 +98,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
 
         jLabel6.setText("Tipo habitación");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxTipoHabitacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -133,8 +135,8 @@ public class frmReservacionCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(btnMenu)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                        .addComponent(btnSalir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,13 +149,11 @@ public class frmReservacionCliente extends javax.swing.JFrame {
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtNombreCliente)
                                     .addComponent(jLabel3)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboBoxHotel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtHoraEntrada)
                                     .addComponent(txtHoraSalida)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(comboBoxTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(47, 47, 47)
                                 .addComponent(btnReservar)))
@@ -168,21 +168,17 @@ public class frmReservacionCliente extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnMenu)
+                    .addComponent(btnSalir)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnBuscar)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(comboBoxHotel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,7 +189,7 @@ public class frmReservacionCliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboBoxTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
                         .addComponent(btnReservar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -204,17 +200,13 @@ public class frmReservacionCliente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
-        frmPrincipal f = new frmPrincipal();
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        InicioSesion f = new InicioSesion();
         f.setVisible(true);
         
         this.setVisible(false);
         this.dispose();
-    }//GEN-LAST:event_btnMenuActionPerformed
-
-    private void txtNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreClienteActionPerformed
-
-    }//GEN-LAST:event_txtNombreClienteActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
         // TODO add your handling code here:
@@ -254,15 +246,55 @@ public class frmReservacionCliente extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void cargarComboBoxHotel() {
+        DAOHoteles daoHotel = new DAOHoteles();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        ArrayList<Hotel> hotel = new ArrayList<>();
+
+        try {
+            hotel = daoHotel.consultar();
+            
+            
+            for(Hotel hoteles : hotel){
+                String hot = hoteles.getNombre();
+                modelo.addElement(hot);
+            }
+            
+        } catch (DAOException e) {
+            Logger.getLogger(frmReservacionCliente.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        comboBoxHotel.setModel(modelo);
+    }
+
+    private void cargarComboBoxHabitacion() {
+        DAOHabitaciones daoHabitacion = new DAOHabitaciones();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        ArrayList<Habitaciones> habitacion = new ArrayList<>();
+
+        try {
+            habitacion = daoHabitacion.consultar();
+            
+            
+            for(Habitaciones hab : habitacion){
+                String tipo = hab.getTipo();
+                modelo.addElement(tipo);
+            }
+        } catch (DAOException e) {
+            Logger.getLogger(frmReservacionCliente.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        comboBoxTipoHabitacion.setModel(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnReservar;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> comboBoxHotel;
+    private javax.swing.JComboBox<String> comboBoxTipoHabitacion;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -273,6 +305,5 @@ public class frmReservacionCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtHoraEntrada;
     private javax.swing.JTextField txtHoraSalida;
-    private javax.swing.JTextField txtNombreCliente;
     // End of variables declaration//GEN-END:variables
 }

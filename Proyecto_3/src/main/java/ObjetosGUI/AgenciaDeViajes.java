@@ -1,4 +1,4 @@
-package Objetos;
+package ObjetosGUI;
 
 import java.util.Objects;
 import org.bson.types.ObjectId;
@@ -10,17 +10,19 @@ import org.bson.types.ObjectId;
 public class AgenciaDeViajes {
     ObjectId _id;
     int ID_agencia;
-    String nombre;
+    String usuario;
     String direccion;
     String telefono;
+    String contraseña;
     public AgenciaDeViajes() {
     }
 
-    public AgenciaDeViajes(int ID_agencia, String nombre, String direccion, String telefono) {
+    public AgenciaDeViajes(int ID_agencia, String usuario, String direccion, String telefono,String contraseña) {
         this.ID_agencia = ID_agencia;
-        this.nombre = nombre;
+        this.usuario = usuario;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.contraseña= contraseña;
     }
 
     public ObjectId getId() {
@@ -39,12 +41,12 @@ public class AgenciaDeViajes {
         this.ID_agencia = ID_agencia;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getDireccion() {
@@ -62,6 +64,15 @@ public class AgenciaDeViajes {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+    
     /**
      * Eficiencia para almacenamiento de datos.
      * @return retorna el hash.
@@ -90,7 +101,7 @@ public class AgenciaDeViajes {
             return false;
         }
         final AgenciaDeViajes other = (AgenciaDeViajes) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
+        if (!Objects.equals(this.usuario, other.usuario)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {
@@ -99,12 +110,11 @@ public class AgenciaDeViajes {
         return true;
     }
 
-    
     @Override
     public String toString() {
-        return "AgenciaDeViajes{" + "id=" + _id + ", ID_agencia=" + ID_agencia + ", nombre=" + nombre + ", direccion=" + direccion + ", telefono=" + telefono + '}';
+        return "AgenciaDeViajes{" + "_id=" + _id + ", ID_agencia=" + ID_agencia + ", usuario=" + usuario + ", direccion=" + direccion + ", telefono=" + telefono + ", contrase\u00f1a=" + contraseña + '}';
     }
-    
+
     
 
 }

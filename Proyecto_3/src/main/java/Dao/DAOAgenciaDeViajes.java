@@ -5,7 +5,7 @@ import com.mongodb.client.model.Filters;
 import Exceptions.DAOException;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import Objetos.AgenciaDeViajes;
+import ObjetosGUI.AgenciaDeViajes;
 import java.util.ArrayList;
 
 /**
@@ -34,9 +34,10 @@ public class DAOAgenciaDeViajes extends BaseDao<AgenciaDeViajes> {
         ag.updateOne(Filters.eq("_id", entidad.getId()),
                 new Document("$set", new Document()
                         .append("ID_agencia", entidad.getID_agencia())
-                        .append("nombre", entidad.getNombre())
+                        .append("usuario", entidad.getUsuario())
                         .append("direccion", entidad.getDireccion())
                         .append("telefono", entidad.getTelefono())
+                        .append("contraseña", entidad.getContraseña())
                 )
         );
                         

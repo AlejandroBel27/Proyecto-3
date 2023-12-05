@@ -4,8 +4,19 @@
  */
 package formularios;
 
-import Objetos.AgenciaDeViajes;
+import Dao.DAOAgenciaDeViajes;
+import Dao.DAOHabitaciones;
+import Dao.DAOHoteles;
+import Exceptions.DAOException;
+import ObjetosGUI.AgenciaDeViajes;
+import ObjetosGUI.Habitaciones;
+import ObjetosGUI.Hotel;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,11 +24,16 @@ import java.util.ArrayList;
  */
 public class frmReservacionAgencia extends javax.swing.JFrame {
 
+    private DAOHoteles dao = new DAOHoteles();
+
     /**
      * Creates new form frmReservacionAgencia
      */
     public frmReservacionAgencia() {
         initComponents();
+        imprimirTablaAgencia();
+        cargarComboBoxHotel();
+        cargarComboBoxHabitacion();
     }
 
     /**
@@ -31,21 +47,19 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnMenu = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableAgencia = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboBoxHotel = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtHoraEntrada = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtHoraSalida = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboBoxTipoHabitacion = new javax.swing.JComboBox<>();
         btnReservar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -72,16 +86,16 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnMenu.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
-        btnMenu.setIcon(new javax.swing.ImageIcon("/Users/alejandrobel/Desktop/ISW/BDA_avanzada/Proyecto-3/Proyecto_3/src/main/resources/Iconos/logout-icon.png")); // NOI18N
-        btnMenu.setText("menú");
-        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon("/Users/alejandrobel/Desktop/ISW/BDA_avanzada/Proyecto-3/Proyecto_3/src/main/resources/Iconos/logout-icon.png")); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableAgencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -92,31 +106,23 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableAgencia);
 
         jButton1.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon("/Users/alejandrobel/Desktop/ISW/BDA_avanzada/Proyecto-3/Proyecto_3/src/main/resources/Iconos/icons8-consultar-el-manual-30.png")); // NOI18N
         jButton1.setText("Buscar");
 
-        jLabel2.setText("Agencia:");
-
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Nombre Hotel:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxHotel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel4.setText("Hora entrada:");
+        jLabel4.setText("Fecha entrada:");
 
-        jLabel5.setText("Hora salida:");
+        jLabel5.setText("Fecha salida:");
 
         jLabel6.setText("Tipo habitación");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxTipoHabitacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnReservar.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         btnReservar.setIcon(new javax.swing.ImageIcon("/Users/alejandrobel/Desktop/ISW/BDA_avanzada/Proyecto-3/Proyecto_3/src/main/resources/Iconos/icons8-reserva-30.png")); // NOI18N
@@ -135,24 +141,27 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel2)
-                                .addComponent(txtNombre)
-                                .addComponent(jLabel3)
-                                .addComponent(jComboBox1, 0, 190, Short.MAX_VALUE)
-                                .addComponent(txtHoraEntrada)
-                                .addComponent(txtHoraSalida)
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(btnMenu)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(btnReservar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel3)
+                                        .addComponent(comboBoxHotel, 0, 190, Short.MAX_VALUE)
+                                        .addComponent(txtHoraSalida)
+                                        .addComponent(comboBoxTipoHabitacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(btnSalir)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(btnReservar)))
+                        .addGap(0, 3, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 23, Short.MAX_VALUE)
+                        .addComponent(txtHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -175,27 +184,23 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnMenu)
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(btnSalir)
+                        .addGap(33, 33, 33)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(comboBoxHotel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtHoraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtHoraSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboBoxTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReservar)
                         .addGap(32, 32, 32))))
@@ -205,21 +210,19 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
-        frmPrincipal f = new frmPrincipal();
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        InicioSesion f = new InicioSesion();
         f.setVisible(true);
-        
+
         this.setVisible(false);
         this.dispose();
-    }//GEN-LAST:event_btnMenuActionPerformed
-
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-      
-        
-    }//GEN-LAST:event_txtNombreActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
         // TODO add your handling code here:
+        
+        
+        
     }//GEN-LAST:event_btnReservarActionPerformed
 
     /**
@@ -257,24 +260,115 @@ public class frmReservacionAgencia extends javax.swing.JFrame {
         });
     }
 
+    private void imprimirTablaAgencia() {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        tableAgencia.setModel(modelo);
+
+        modelo.addColumn("ID");
+        modelo.addColumn("Hotel");
+        modelo.addColumn("Direccion");
+        modelo.addColumn("Ingreso");
+        modelo.addColumn("Salida");
+
+        ArrayList<Hotel> ADV = null;
+
+        try {
+            ADV = dao.consultar();
+        } catch (DAOException e) {
+            Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        StringBuffer sb = new StringBuffer();
+
+        Object o[] = null;
+
+        Hotel[] AgeArray = new Hotel[ADV.size()];
+        AgeArray = ADV.toArray(AgeArray);
+
+        for (int i = 0; i < AgeArray.length; i++) {
+
+            if (txtBuscar.getText().equals(AgeArray[i].getNombre())) {
+                Object info[] = new Object[4];
+                info[0] = AgeArray[i].getId();
+                info[1]=AgeArray[i].getNombre();
+                info[2] = AgeArray[i].getDireccion();
+                info[3] = AgeArray[i].getTelefono();
+                
+
+                modelo.addRow(info);
+
+                Hotel agen = AgeArray[i];
+
+                modelo.setValueAt(agen.getId().toString(), i, 0);
+                modelo.setValueAt(agen.getDireccion().toString(), i, 1);
+                modelo.setValueAt(agen.getTelefono().toString(), i, 2);
+                modelo.setValueAt(agen.getNombre().toString(), i, 3);
+
+                tableAgencia.repaint();
+            }
+
+        }
+    }
+
+    private void cargarComboBoxHotel() {
+        DAOHoteles daoHotel = new DAOHoteles();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        ArrayList<Hotel> hotel = new ArrayList<>();
+
+        try {
+            hotel = daoHotel.consultar();
+            
+            
+            for(Hotel hoteles : hotel){
+                String hot = hoteles.getNombre();
+                modelo.addElement(hot);
+            }
+            
+        } catch (DAOException e) {
+            Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        comboBoxHotel.setModel(modelo);
+    }
+
+    private void cargarComboBoxHabitacion() {
+        DAOHabitaciones daoHabitacion = new DAOHabitaciones();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        ArrayList<Habitaciones> habitacion = new ArrayList<>();
+
+        try {
+            habitacion = daoHabitacion.consultar();
+            
+            
+            for(Habitaciones hab : habitacion){
+                String tipo = hab.getTipo();
+                modelo.addElement(tipo);
+            }
+        } catch (DAOException e) {
+            Logger.getLogger(frmReservacionAgencia.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        comboBoxTipoHabitacion.setModel(modelo);
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnReservar;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> comboBoxHotel;
+    private javax.swing.JComboBox<String> comboBoxTipoHabitacion;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableAgencia;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtHoraEntrada;
     private javax.swing.JTextField txtHoraSalida;
-    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

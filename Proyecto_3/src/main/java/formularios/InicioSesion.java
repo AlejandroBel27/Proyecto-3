@@ -4,9 +4,11 @@
  */
 package formularios;
 
+import Dao.DAOAgenciaDeViajes;
 import Dao.DAOClientes;
 import Exceptions.DAOException;
-import Objetos.Clientes;
+import ObjetosGUI.AgenciaDeViajes;
+import ObjetosGUI.Clientes;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,17 +136,22 @@ public class InicioSesion extends javax.swing.JFrame {
             return;
         }
         if (revisarUsuario() == 1) {
-            frmPrincipal frame = new frmPrincipal();
+            frmReservacionCliente frame = new frmReservacionCliente();
             frame.setVisible(true);
-            
+
             this.setVisible(false);
             this.dispose();
-        }else if(revisarUsuario() == -1){
+        } else if (revisarUsuario() == -1) {
             JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
         } else if (revisarUsuario() == 0) {
             JOptionPane.showMessageDialog(null, "Contraseña inválida, intente de nuevo.");
-        }
-        
+        } else if (revisarUsuario() == 2) {
+            frmReservacionAgencia frame = new frmReservacionAgencia();
+            frame.setVisible(true);
+
+            this.setVisible(false);
+            this.dispose();
+        } 
 
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
@@ -195,31 +202,100 @@ public class InicioSesion extends javax.swing.JFrame {
 
     private int revisarUsuario() {
         DAOClientes dao = new DAOClientes();
-        ArrayList<Clientes> clientes = null;
-
+        DAOAgenciaDeViajes daoA = new DAOAgenciaDeViajes();
         try {
-            clientes = dao.consultar();
-        } catch (DAOException e) {
+            ArrayList<Clientes> clientes = dao.consultar();
+            ArrayList<AgenciaDeViajes> agencia = daoA.consultar();
+            
+            String usuario = txtUsuario.getText();
+            String contra = String.valueOf(txtContra.getPassword());
+            
+            for (Clientes cliente : clientes) {
+                if (cliente.getUsuario().equals(txtUsuario.getText()) && cliente.getContraseña().equals(contra)) {
+                    JOptionPane.showMessageDialog(null, "Bienvenido " + cliente.getUsuario() + ".");
+                    return 1;
+                }
+
+                if (cliente.getUsuario().equals(usuario)) {
+                    return 0;
+                }
+        }
+            for (AgenciaDeViajes agenciaDeV : agencia) {
+                if (agenciaDeV.getUsuario().equals(txtUsuario.getText()) && agenciaDeV.getContraseña().equals(contra)) {
+                    JOptionPane.showMessageDialog(null, "Bienvenido " + agenciaDeV.getUsuario() + ".");
+                    return 2;
+                }
+                if (agenciaDeV.getUsuario().equals(usuario)) {
+                    return 0;
+                }
+
+            }
+
+    }catch (DAOException e) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error, intente de nuevo.");
             Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, e);
         }
-
-        if (clientes.size() == 0) {
-            return -1;
-        }
-
-        String contra = String.valueOf(txtContra.getPassword());
-
-        for (Clientes cliente : clientes) {
-            if (cliente.getUsuario().equals(txtUsuario.getText()) && cliente.getContraseña().equals(contra)) {
-                JOptionPane.showMessageDialog(null, "Bienvenido " + cliente.getUsuario() + ".");
-                return 1;
-            }
-
-            if (cliente.getUsuario().equals(txtUsuario.getText())) {
-                return 0;
-            }
-        }
         return -1;
     }
+    
+
+//    private int revisarUsuario() {
+//        DAOClientes dao = new DAOClientes();
+//        ArrayList<Clientes> clientes = null;
+//
+//        try {
+//            clientes = dao.consultar();
+//        } catch (DAOException e) {
+//            JOptionPane.showMessageDialog(null, "Ha ocurrido un error, intente de nuevo.");
+//            Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//
+//        if (clientes.size() == 0) {
+//            return -1;
+//        }
+//
+//        String contra = String.valueOf(txtContra.getPassword());
+//
+//        for (Clientes cliente : clientes) {
+//            if (cliente.getUsuario().equals(txtUsuario.getText()) && cliente.getContraseña().equals(contra)) {
+//                JOptionPane.showMessageDialog(null, "Bienvenido " + cliente.getUsuario() + ".");
+//                return 1;
+//            }
+//
+//            if (cliente.getUsuario().equals(txtUsuario.getText())) {
+//                return 0;
+//            }
+//        }
+//        return -1;
+//    }
+//
+//    private int revisarUsuario2() {
+//        DAOAgenciaDeViajes daoA = new DAOAgenciaDeViajes();
+//        ArrayList<AgenciaDeViajes> agencia = null;
+//
+//        try {
+//            agencia = daoA.consultar();
+//        } catch (DAOException e) {
+//            JOptionPane.showMessageDialog(null, "Ha ocurrido un error, intente de nuevo.");
+//            Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//
+//        if (agencia.size() == 0) {
+//            return -1;
+//        }
+//
+//        String contra = String.valueOf(txtContra.getPassword());
+//
+//        for (AgenciaDeViajes agenciaDeV : agencia) {
+//            if (agenciaDeV.getUsuario().equals(txtUsuario.getText()) && agenciaDeV.getContraseña().equals(contra)) {
+//                JOptionPane.showMessageDialog(null, "Bienvenido " + agenciaDeV.getUsuario() + ".");
+//                return 1;
+//            }
+//            if (agenciaDeV.getUsuario().equals(txtUsuario.getText())) {
+//                return 0;
+//            }
+//
+//        }
+//        return -1;
+//    }
 }

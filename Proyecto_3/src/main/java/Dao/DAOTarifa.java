@@ -5,7 +5,7 @@
 package Dao;
 
 import Exceptions.DAOException;
-import Objetos.Tarifa;
+import ObjetosGUI.Tarifa;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import java.util.ArrayList;

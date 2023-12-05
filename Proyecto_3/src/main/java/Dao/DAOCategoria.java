@@ -5,7 +5,7 @@ import com.mongodb.client.model.Filters;
 import Exceptions.DAOException;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import Objetos.Categoria;
+import ObjetosGUI.Categoria;
 import java.util.ArrayList;
 
 /**

@@ -1,4 +1,4 @@
-package Objetos;
+package ObjetosGUI;
 
 import java.util.Objects;
 import org.bson.types.ObjectId;

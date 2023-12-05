@@ -1,6 +1,5 @@
-package Objetos;
+package ObjetosGUI;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import org.bson.types.ObjectId;
 
@@ -8,23 +7,23 @@ import org.bson.types.ObjectId;
  *
  * @author Proyecto_3
  */
-public class Tarifa {
-
+public class Habitaciones {
     ObjectId _id;
     int ID_habitacion;
-    int ID_hotel;
+    int numero;
     String tipo;
-    ArrayList<String> temporada = new ArrayList();
+    int planta;
+    int ID_hotel;
 
-    public Tarifa() {
+    public Habitaciones() {
     }
 
-    public Tarifa(int ID_habitacion, int ID_hotel, String tipo,String temporada) {
+    public Habitaciones(int ID_habitacion, int numero, String tipo, int planta, int ID_hotel) {
         this.ID_habitacion = ID_habitacion;
-        this.ID_hotel = ID_hotel;
+        this.numero = numero;
         this.tipo = tipo;
-        this.temporada.add(temporada);
-        _id = new ObjectId();
+        this.planta = planta;
+        this.ID_hotel = ID_hotel;
     }
 
     public ObjectId getId() {
@@ -43,12 +42,12 @@ public class Tarifa {
         this.ID_habitacion = ID_habitacion;
     }
 
-    public int getID_hotel() {
-        return ID_hotel;
+    public int getNumero() {
+        return numero;
     }
 
-    public void setID_hotel(int ID_hotel) {
-        this.ID_hotel = ID_hotel;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     public String getTipo() {
@@ -59,12 +58,20 @@ public class Tarifa {
         this.tipo = tipo;
     }
 
-    public ArrayList<String> getTemporada() {
-        return temporada;
+    public int getPlanta() {
+        return planta;
     }
 
-    public void setTemporada(ArrayList<String> temporada) {
-        this.temporada = temporada;
+    public void setPlanta(int planta) {
+        this.planta = planta;
+    }
+
+    public int getID_hotel() {
+        return ID_hotel;
+    }
+
+    public void setID_hotel(int ID_hotel) {
+        this.ID_hotel = ID_hotel;
     }
     
     /**
@@ -94,7 +101,7 @@ public class Tarifa {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Tarifa other = (Tarifa) obj;
+        final Habitaciones other = (Habitaciones) obj;
         if (!Objects.equals(this.ID_habitacion, other.ID_habitacion)) {
             return false;
         }
@@ -106,8 +113,10 @@ public class Tarifa {
 
     @Override
     public String toString() {
-        return "Tarifa{" + "_id=" + _id + ", ID_habitacion=" + ID_habitacion + ", ID_hotel=" + ID_hotel + ", tipo=" + tipo + ", temporada=" + temporada + '}';
+        return "Habitaciones{" + "_id=" + _id + ", ID_habitacion=" + ID_habitacion + ", numero=" + numero + ", tipo=" + tipo + ", planta=" + planta + ", ID_hotel=" + ID_hotel + '}';
     }
+    
+    
     
     
 }

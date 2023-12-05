@@ -1,4 +1,4 @@
-package Objetos;
+package ObjetosGUI;
 
 import java.util.ArrayList;
 import java.util.Objects;
